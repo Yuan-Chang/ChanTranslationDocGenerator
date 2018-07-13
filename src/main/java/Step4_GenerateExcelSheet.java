@@ -265,112 +265,17 @@ public class Step4_GenerateExcelSheet {
         sheet.addMergedRegion(new CellRangeAddress(rowCount, rowCount+1, 0, 5));
 
 
+        java.io.File result = new java.io.File(String.format("%s/%s", Constants.WORKING_FOLDER, "ExcelSheet.xlsx"));
+
         // Write the output to a file
-        FileOutputStream fileOut = new FileOutputStream(new java.io.File(String.format("%s/%s", Constants.WORKING_FOLDER, "ExcelSheet.xlsx")));
+        FileOutputStream fileOut = new FileOutputStream(result);
         workbook.write(fileOut);
         fileOut.close();
 
         // Closing the workbook
         workbook.close();
 
-        // Create cells
-//        for(int i = 0; i < columns.length; i++) {
-//            Cell cell = headerRow.createCell(i);
-//            cell.setCellValue(columns[i]);
-//            cell.setCellStyle(headerCellStyle);
-//        }
-
-//        String folderID = getFolderID(ROOT_FOLDER);
-//
-//        System.out.println("Creating folders on drive");
-//        String transcriptionFolderID = createFolder(folderID, TRANSCRIPTION_FOLDER);
-//        String translationFolderID = createFolder(folderID, TRANSLATION_FOLDER);
-//
-//
-//        ArrayList<File> uploadedFileList = new ArrayList<>();
-//
-//        System.out.println();
-//        System.out.println("Uploading files to drive");
-//        //Upload files
-//        java.io.File files2UploadFolder = new java.io.File(TARGET_FOLDER);
-//        for (java.io.File file : files2UploadFolder.listFiles()) {
-//            File fileMetadata = new File();
-//            fileMetadata.setParents(Collections.singletonList(translationFolderID));
-//            fileMetadata.setName(file.getName());
-//            fileMetadata.setMimeType("application/vnd.google-apps.doc");
-//
-//            java.io.File filePath = new java.io.File(file.getAbsolutePath());
-//            FileContent mediaContent = new FileContent("text/docx", filePath);
-//            File uploadedFile = getService().files().create(fileMetadata, mediaContent)
-//                    .setFields("id")
-//                    .execute();
-//            System.out.println("Upload File name:" + file.getName() + " ID: " + uploadedFile.getId());
-//
-//            uploadedFile.setName(file.getName());
-//            uploadedFileList.add(uploadedFile);
-//        }
-//
-//        System.out.println();
-//        System.out.println("Granting permission");
-//
-//        //Grant permission
-//        for (File file : uploadedFileList) {
-//            String fileId = file.getId();
-//            JsonBatchCallback<Permission> callback = new JsonBatchCallback<Permission>() {
-//                @Override
-//                public void onFailure(GoogleJsonError e,
-//                                      HttpHeaders responseHeaders)
-//                        throws IOException {
-//                    // Handle error
-//                    System.err.println(e.getMessage());
-//                }
-//
-//                @Override
-//                public void onSuccess(Permission permission,
-//                                      HttpHeaders responseHeaders)
-//                        throws IOException {
-//                    System.out.println("File Name: " + file.getName()+" Permission ID: " + permission.getId());
-//
-//                }
-//            };
-//            BatchRequest batch = getService().batch();
-//            Permission userPermission = new Permission()
-//                    .setType("anyone")
-//                    .setRole("writer");
-//
-//            getService().permissions().create(fileId, userPermission)
-//                    .setFields("id")
-//                    .queue(batch, callback);
-//
-//            batch.execute();
-//
-//
-//        }
-//
-//        System.out.println();
-//        System.out.println("Getting share link");
-//
-//        JSONObject jsonObject = new JSONObject();
-//
-//        for(File file : uploadedFileList)
-//        {
-//            File tmpFile = getService().files().get(file.getId()).setFields("webViewLink").execute();
-//            System.out.println("File Name: " + file.getName()+" share link: " + tmpFile.getWebViewLink());
-//
-//            String fileName = file.getName().substring(0,file.getName().lastIndexOf("."));
-//            jsonObject.put(fileName,tmpFile.getWebViewLink());
-//        }
-//
-//        //Save share link info
-//        java.io.File file = new java.io.File(String.format("%s/%s",WORKING_FOLDER,"shareLinks.json"));
-//        FileWriter fileWriter = new FileWriter(file);
-//        String jsonString = jsonObject.toString();
-//        fileWriter.write(jsonString);
-//        fileWriter.flush();
-//        fileWriter.close();
-//        System.out.println();
-//        System.out.println(String.format("Save fileName: %s to filePath: %s fileContent: %s",file.getName(),file.getAbsolutePath(),jsonString));
-
+        System.out.println("Excel sheet is created in path : "+result.getAbsolutePath());
 
     }
 
